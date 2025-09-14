@@ -1,13 +1,10 @@
+// filepath: c:\Users\Admin\Documents\Programmeren\FullStackWebApp\FullStackWebApp\db.js
+require('dotenv').config();
 const mysql = require('mysql2');
-
 const pool = mysql.createPool({
-  host: 'localhost', // Change if your DB is remote
-  user: 'root',      // Your MySQL username
-  password: 'Inferno2004',      // Your MySQL password
-  database: 'sakila',// Sakila database name
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 });
-
-module.exports = pool.promise();
+module.exports = pool;
