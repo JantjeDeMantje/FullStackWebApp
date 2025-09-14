@@ -39,10 +39,16 @@
         <hr />
       </div>
       <div class="col py-3">
-        <!-- Centered Search Bar in main content area -->
-        <div class="row justify-content-center mb-4">
-          <div class="col-12 col-md-6">
-            <form class="d-flex" role="search" method="GET" action="/">
+        <!-- Top bar with search and account button -->
+        <div class="d-flex align-items-center mb-4" style="position: relative">
+          <div class="flex-grow-1 d-flex justify-content-center">
+            <form
+              class="d-flex"
+              role="search"
+              method="GET"
+              action="/"
+              style="max-width: 500px; width: 100%"
+            >
               <input
                 class="form-control me-2"
                 type="search"
@@ -56,18 +62,78 @@
               </button>
             </form>
           </div>
+          <div class="ms-3" style="position: absolute; right: 0">
+            <div class="dropdown">
+              <button
+                class="btn btn-outline-primary dropdown-toggle"
+                type="button"
+                id="accountDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Account
+              </button>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="accountDropdown"
+              >
+                <% if (!user) { %>
+                <li><a class="dropdown-item" href="/login">Login</a></li>
+                <li><a class="dropdown-item" href="/users/register">Register</a></li>
+                <% } else { %>
+                <li>
+                  <span class="dropdown-item-text">
+                    <strong><%= user.first_name %> <%= user.last_name %></strong
+                    ><br />
+                    <small><%= user.email %></small>
+                  </span>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item text-danger" href="/logout">Logout</a>
+                </li>
+                <% } %>
+              </ul>
+            </div>
+          </div>
         </div>
         <!-- Genre filter buttons -->
         <div class="d-flex flex-wrap justify-content-center mb-3">
           <form method="GET" action="/" class="me-2 mb-2">
-            <input type="hidden" name="q" value="<%= typeof q !== 'undefined' ? q : '' %>">
-            <button type="submit" class="btn btn-sm <%= !genre ? 'btn-primary' : 'btn-outline-primary' %>" style="padding: 0.23rem 0.45rem; font-size: 0.70rem; border-radius: 0.18rem;">All</button>
+            <input
+              type="hidden"
+              name="q"
+              value="<%= typeof q !== 'undefined' ? q : '' %>"
+            />
+            <button
+              type="submit"
+              class="btn btn-sm <%= !genre ? 'btn-primary' : 'btn-outline-primary' %>"
+              style="
+                padding: 0.23rem 0.45rem;
+                font-size: 0.7rem;
+                border-radius: 0.18rem;
+              "
+            >
+              All
+            </button>
           </form>
           <% genres.forEach(function(g) { %>
           <form method="GET" action="/" class="me-2 mb-2">
-            <input type="hidden" name="genre" value="<%= g.name %>">
-            <input type="hidden" name="q" value="<%= typeof q !== 'undefined' ? q : '' %>">
-            <button type="submit" class="btn btn-sm <%= genre === g.name ? 'btn-primary' : 'btn-outline-primary' %>" style="padding: 0.23rem 0.45rem; font-size: 0.70rem; border-radius: 0.18rem;">
+            <input type="hidden" name="genre" value="<%= g.name %>" />
+            <input
+              type="hidden"
+              name="q"
+              value="<%= typeof q !== 'undefined' ? q : '' %>"
+            />
+            <button
+              type="submit"
+              class="btn btn-sm <%= genre === g.name ? 'btn-primary' : 'btn-outline-primary' %>"
+              style="
+                padding: 0.23rem 0.45rem;
+                font-size: 0.7rem;
+                border-radius: 0.18rem;
+              "
+            >
               <%= g.name %>
             </button>
           </form>

@@ -7,3 +7,11 @@ exports.fetchMovies = function(q, genre, callback) {
 exports.fetchGenres = function(callback) {
   moviesDao.getGenres(callback);
 };
+
+exports.fetchMovieById = function(id, callback) {
+  moviesDao.getMovieById(id, callback);
+};
+
+exports.fetchActorsByMovieId = function(movieId, callback) {
+  moviesDao.getActorsByMovieId(movieId, callback);
+};

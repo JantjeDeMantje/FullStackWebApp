@@ -14,5 +14,20 @@ exports.getAllMovies = function(req, res) {
       }
       res.render('moviesTable', { movies, error: null, q, genres, genre });
     });
+  }); 
+};
+
+exports.getMovieDetail = function(req, res) {
+  const id = req.params.id;
+  moviesService.fetchMovieById(id, function(err, movie) {
+    if (err || !movie) {
+      return res.status(404).render('error', { title: 'Error', message: 'Movie not found', error: {} });
+    }
+    moviesService.fetchActorsByMovieId(id, function(err, actors) {
+      if (err) {
+        return res.status(500).render('error', { title: 'Error', message: 'Failed to load actors', error: {} });
+      }
+      res.render('movieDetail', { movie, actors });
+    });
   });
 };

@@ -1,6 +1,6 @@
- //aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 const express = require('express');
 const path = require('path');
+const session = require('express-session');
 
 const usersRouter = require('./src/routes/users');
 const moviesRouter = require('./src/routes/movies');
@@ -11,6 +11,17 @@ const app = express();
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}/`);
+});
+
+app.use(session({
+  secret: 'your_secret_key',
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
 });
 
 // View engine setup
@@ -32,6 +43,8 @@ app.get('/', moviesController.getAllMovies);
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.urlencoded({ extended: true }));
 
 // API routes
 app.use('/users', usersRouter);

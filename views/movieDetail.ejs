@@ -1,0 +1,14 @@
+<h2><%= movie.title %></h2>
+<p><strong>Description:</strong> <%= movie.description %></p>
+<p><strong>Release Year:</strong> <%= movie.release_year %></p>
+<p><strong>Length:</strong> <%= movie.length %> min</p>
+<p><strong>Rating:</strong> <%= movie.rating %></p>
+<p><strong>Special Features:</strong> <%= movie.special_features %></p>
+<p><strong>Genres:</strong> <%= movie.genres %></p>
+<p><strong>Actors:</strong></p>
+<ul>
+  <% actors.forEach(function(actor) { %>
+    <li><%= actor.first_name %> <%= actor.last_name %></li>
+  <% }); %>
+</ul>
+<a href="/" class="btn btn-secondary">Back to Movies</a>
