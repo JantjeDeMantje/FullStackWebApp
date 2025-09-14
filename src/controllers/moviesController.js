@@ -6,13 +6,13 @@ exports.getAllMovies = function(req, res) {
   const genre = req.query.genre || '';
   moviesService.fetchGenres(function(err, genres) {
     if (err) {
-      return res.render('index', { movies: [], error: err.message, q, genres: [], genre });
+      return res.render('moviesTable', { movies: [], error: err.message, q, genres: [], genre });
     }
     moviesService.fetchMovies(q, genre, function(err, movies) {
       if (err) {
-        return res.render('index', { movies: [], error: err.message, q, genres, genre });
+        return res.render('moviesTable', { movies: [], error: err.message, q, genres, genre });
       }
-      res.render('index', { movies, error: null, q, genres, genre });
+      res.render('moviesTable', { movies, error: null, q, genres, genre });
     });
   });
 };

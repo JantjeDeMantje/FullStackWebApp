@@ -1,5 +1,5 @@
 // filepath: c:\Users\Admin\Documents\Programmeren\FullStackWebApp\FullStackWebApp\db.js
-require('dotenv').config();
+require('dotenv').config({ quiet: true });
 const mysql = require('mysql2');
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
