@@ -1,8 +1,11 @@
-const db = require('../../db');
+const usersDao = require('../dao/usersDao');
 
 // Fetch all users
 exports.fetchUsers = function(callback) {
-  db.query('SELECT * FROM user', function(err, results) {
-    callback(err, results);
-  });
+  usersDao.getUsers(callback);
+};
+
+// Fetch a user by ID
+exports.fetchUserById = function(id, callback) {
+  usersDao.getUserById(id, callback);
 };
