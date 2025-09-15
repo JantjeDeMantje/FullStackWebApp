@@ -13,3 +13,11 @@ exports.fetchUserById = function(id, callback) {
 exports.createUser = function(user, callback) {
   usersDao.createUser(user, callback);
 };
+
+exports.updateUser = function(user, callback) {
+  usersDao.updateUser(user, callback);
+};
+
+exports.deleteUser = function(id, callback) {
+  usersDao.deleteUser(id, callback);
+};

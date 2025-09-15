@@ -1,7 +1,48 @@
-
 <% if (error) { %>
-  <div class="alert alert-danger"><%= error %></div>
+<div class="alert alert-danger"><%= error %></div>
 <% } %>
+<!-- Genre filter buttons -->
+<div class="d-flex flex-wrap justify-content-center mb-3">
+  <form method="GET" action="/" class="me-2 mb-2">
+    <input
+      type="hidden"
+      name="q"
+      value="<%= typeof q !== 'undefined' ? q : '' %>"
+    />
+    <button
+      type="submit"
+      class="btn btn-sm <%= !genre ? 'btn-primary' : 'btn-outline-primary' %>"
+      style="
+        padding: 0.23rem 0.45rem;
+        font-size: 0.7rem;
+        border-radius: 0.18rem;
+      "
+    >
+      All
+    </button>
+  </form>
+  <% genres.forEach(function(g) { %>
+  <form method="GET" action="/" class="me-2 mb-2">
+    <input type="hidden" name="genre" value="<%= g.name %>" />
+    <input
+      type="hidden"
+      name="q"
+      value="<%= typeof q !== 'undefined' ? q : '' %>"
+    />
+    <button
+      type="submit"
+      class="btn btn-sm <%= genre === g.name ? 'btn-primary' : 'btn-outline-primary' %>"
+      style="
+        padding: 0.23rem 0.45rem;
+        font-size: 0.7rem;
+        border-radius: 0.18rem;
+      "
+    >
+      <%= g.name %>
+    </button>
+  </form>
+  <% }); %>
+</div>
 
 <table class="table table-striped">
   <thead>
@@ -13,13 +54,13 @@
   </thead>
   <tbody>
     <% movies.forEach(function(movie) { %>
-      <tr>
-        <td>
-          <a href="/movies/<%= movie.film_id %>"><%= movie.title %></a>
-        </td>
-        <td><%= movie.description %></td>
-        <td><%= movie.release_year %></td>
-      </tr>
+    <tr>
+      <td>
+        <a href="/movies/<%= movie.film_id %>"><%= movie.title %></a>
+      </td>
+      <td><%= movie.description %></td>
+      <td><%= movie.release_year %></td>
+    </tr>
     <% }); %>
   </tbody>
 </table>

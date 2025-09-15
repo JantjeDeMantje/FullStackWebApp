@@ -1,0 +1,27 @@
+<h2>Edit Your Settings</h2>
+<form method="POST" action="/users/edit">
+  <div class="mb-3">
+    <label for="first_name" class="form-label">First Name</label>
+    <input type="text" class="form-control" id="first_name" name="first_name" required value="<%= user.first_name %>">
+  </div>
+  <div class="mb-3">
+    <label for="last_name" class="form-label">Last Name</label>
+    <input type="text" class="form-control" id="last_name" name="last_name" required value="<%= user.last_name %>">
+  </div>
+  <div class="mb-3">
+    <label for="email" class="form-label">Email</label>
+    <input type="email" class="form-control" id="email" name="email" required value="<%= user.email %>">
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">New Password (leave blank to keep current)</label>
+    <input type="password" class="form-control" id="password" name="password">
+  </div>
+  <% if (error) { %>
+    <div class="alert alert-danger"><%= error %></div>
+  <% } %>
+  <button type="submit" class="btn btn-primary">Save Changes</button>
+  </form>
+<form method="POST" action="/users/delete" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+  <button type="submit" class="btn btn-danger mt-3">Delete Account</button>
+</form>
+</form>
