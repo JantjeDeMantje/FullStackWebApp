@@ -21,3 +21,7 @@ exports.updateUser = function(user, callback) {
 exports.deleteUser = function(id, callback) {
   usersDao.deleteUser(id, callback);
 };
+
+exports.getRentalHistory = function(customerId, callback) {
+  usersDao.getRentalHistory(customerId, callback);
+};

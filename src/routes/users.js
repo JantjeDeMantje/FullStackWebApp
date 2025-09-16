@@ -11,5 +11,10 @@ router.get('/logout', usersController.logoutUser);
 router.get('/edit', usersController.showEditForm);
 router.post('/edit', usersController.updateUser);
 router.post('/delete', usersController.deleteUser);
+router.get('/rental-history', usersController.showRentalHistory);
+
+router.get('/about', (req, res) => {
+  res.render('about');
+});
 
 module.exports = router;

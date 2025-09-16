@@ -13,25 +13,28 @@
       <div
         class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark d-flex flex-column align-items-sm-start px-4 pt-2 text-white min-vh-100 justify-content-start"
       >
-        <a
-          href="/"
-          class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"
-        >
-          <span class="fs-5 d-none d-sm-inline ms-4">Menu</span>
-        </a>
+        <span class="fs-5 d-none d-sm-inline ms-4">Menu</span>
         <ul
           class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
           id="menu"
         >
           <li class="nav-item">
-            <a href="#" class="nav-link align-middle px-0">
+            <a href="/" class="nav-link align-middle px-0">
               <i class="fs-4 bi-house"></i>
               <span class="ms-4 d-none d-sm-inline text-white">Home</span>
             </a>
           </li>
+          <% if (user) { %>
           <li>
-            <a href="#" class="nav-link px-0 align-middle">
-              <i class="fs-5 bi-people"></i>
+            <a href="/users/rental-history" class="nav-link px-0 align-middle">
+              <i class="fs-5 bi-film"></i>
+              <span class="ms-4 d-none d-sm-inline text-white">My Rentals</span>
+            </a>
+          </li>
+          <% } %>
+          <li>
+            <a href="/users/about" class="nav-link px-0 align-middle">
+              <i class="fs-5 bi-info-circle"></i>
               <span class="ms-4 d-none d-sm-inline text-white">About</span>
             </a>
           </li>

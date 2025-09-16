@@ -1,0 +1,34 @@
+<h2>My Rental History</h2>
+<% if (rentals.length === 0) { %>
+  <p>You have not rented any movies yet.</p>
+<% } else { %>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Store</th>
+        <th>Rented On</th>
+        <th>Returned On</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% rentals.forEach(function(rental) { %>
+        <tr>
+          <td>
+            <a href="/movies/<%= rental.film_id %>"><%= rental.title %></a>
+          </td>
+          <td><%= rental.store_id %></td>
+          <td><%= rental.rental_date.toLocaleString() %></td>
+          <td>
+            <% if (rental.return_date) { %>
+              <%= rental.return_date.toLocaleString() %>
+            <% } else { %>
+              <span class="text-danger">Not returned</span>
+            <% } %>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+<% } %>
+<a href="/" class="btn btn-secondary">Back to Home</a>

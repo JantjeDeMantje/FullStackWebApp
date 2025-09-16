@@ -44,23 +44,23 @@
   <% }); %>
 </div>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Release Year</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% movies.forEach(function(movie) { %>
-    <tr>
-      <td>
-        <a href="/movies/<%= movie.film_id %>"><%= movie.title %></a>
-      </td>
-      <td><%= movie.description %></td>
-      <td><%= movie.release_year %></td>
-    </tr>
-    <% }); %>
-  </tbody>
-</table>
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+  <% movies.forEach(function(movie) { %>
+    <div class="col">
+      <div class="card h-100">
+        <a href="/movies/<%= movie.film_id %>">
+          <img 
+            src="https://picsum.photos/seed/<%= movie.film_id %>/400/600" 
+            class="card-img-top" 
+            alt="Movie Poster for <%= movie.title %>">
+        </a>
+        <div class="card-body">
+          <h5 class="card-title">
+            <a href="/movies/<%= movie.film_id %>" class="text-decoration-none"><%= movie.title %></a>
+          </h5>
+          <p class="card-text"><%= movie.description %></p>
+        </div>
+      </div>
+    </div>
+  <% }); %>
+</div>

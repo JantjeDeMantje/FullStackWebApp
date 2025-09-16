@@ -55,3 +55,16 @@ exports.getActorsByMovieId = function(movieId, callback) {
   `;
   db.query(sql, [movieId], callback);
 };
+
+exports.getAvailableCopies = function(filmId, callback) {
+  const sql = `
+    SELECT COUNT(i.inventory_id) AS available_copies
+    FROM inventory i
+    LEFT JOIN rental r ON i.inventory_id = r.inventory_id AND r.return_date IS NULL
+    WHERE i.film_id = ? AND r.rental_id IS NULL
+  `;
+  db.query(sql, [filmId], function(err, results) {
+    if (err) return callback(err);
+    callback(null, results[0].available_copies);
+  });
+};

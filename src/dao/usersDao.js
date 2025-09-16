@@ -44,3 +44,16 @@ exports.updateUser = function(user, callback) {
 exports.deleteUser = function(id, callback) {
   db.query('DELETE FROM customer WHERE customer_id = ?', [id], callback);
 };
+
+exports.getRentalHistory = function(customerId, callback) {
+  const sql = `
+    SELECT r.rental_id, r.rental_date, r.return_date, f.title, f.film_id, s.store_id
+    FROM rental r
+    JOIN inventory i ON r.inventory_id = i.inventory_id
+    JOIN film f ON i.film_id = f.film_id
+    JOIN store s ON i.store_id = s.store_id
+    WHERE r.customer_id = ?
+    ORDER BY r.rental_date DESC
+  `;
+  db.query(sql, [customerId], callback);
+};

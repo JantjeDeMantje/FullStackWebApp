@@ -183,3 +183,11 @@ exports.deleteUser = function (req, res) {
     });
   });
 };
+
+exports.showRentalHistory = function(req, res) {
+  if (!req.session.user) return res.redirect('/users/login');
+  usersService.getRentalHistory(req.session.user.customer_id, function(err, rentals) {
+    if (err) return res.status(500).render('error', { title: 'Error', message: 'Failed to load rental history', error: err });
+    res.render('rentalHistory', { rentals });
+  });
+};

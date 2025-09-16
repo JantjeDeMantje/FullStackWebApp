@@ -15,3 +15,7 @@ exports.fetchMovieById = function(id, callback) {
 exports.fetchActorsByMovieId = function(movieId, callback) {
   moviesDao.getActorsByMovieId(movieId, callback);
 };
+
+exports.getAvailableCopies = function(filmId, callback) {
+  moviesDao.getAvailableCopies(filmId, callback);
+};
