@@ -4,7 +4,11 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test:e2e": "start-server-and-test dev http://localhost:3000 cypress:run",
+    "test:e2e:open": "start-server-and-test dev http://localhost:3000 cypress:open"
   },
   "dependencies": {
     "axios": "^1.11.0",
@@ -23,8 +27,11 @@
     "mysql2": "^3.14.4"
   },
   "devDependencies": {
+    "bcryptjs": "^3.0.2",
     "chai": "^6.0.1",
+    "cypress": "^15.2.0",
     "mocha": "^11.7.2",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "start-server-and-test": "^2.1.0"
   }
 }
