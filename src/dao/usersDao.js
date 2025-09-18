@@ -10,6 +10,10 @@ exports.getUserById = function(id, callback) {
   db.query('SELECT * FROM customer WHERE customer_id = ?', [id], callback);
 };
 
+exports.getUserByEmail = function(email, callback) {
+  db.query('SELECT * FROM customer WHERE email = ?', [email], callback);
+};
+
 // Create a new user with dummy address_id and store_id
 exports.createUser = function(user, callback) {
   const sql = `

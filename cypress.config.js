@@ -4,6 +4,7 @@ require('dotenv').config();
 
 module.exports = {
   e2e: {
+    baseUrl: 'http://localhost:3000',
     setupNodeEvents(on, config) {
       on('task', {
         async createTestUser({ email, passwordHash }) {

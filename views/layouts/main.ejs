@@ -107,7 +107,20 @@
             </div>
           </div>
         </div>
-        <%- body %>
+        <% if (flash) { %>
+        <div
+          class="alert alert-<%= flash.type || 'info' %> alert-dismissible fade show"
+          role="alert"
+        >
+          <%= flash.message %>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        <% } %> <%- body %>
       </div>
     </div>
   </div>

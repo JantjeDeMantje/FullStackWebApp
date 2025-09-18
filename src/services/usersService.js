@@ -10,6 +10,10 @@ exports.fetchUserById = function(id, callback) {
   usersDao.getUserById(id, callback);
 };
 
+exports.fetchUserByEmail = function(email, callback) {
+  usersDao.getUserByEmail(email, callback);
+};
+
 exports.createUser = function(user, callback) {
   usersDao.createUser(user, callback);
 };

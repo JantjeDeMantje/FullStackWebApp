@@ -13,43 +13,61 @@ exports.getAllUsers = function (req, res) {
 
 // Show registration form
 exports.showRegisterForm = function (req, res) {
-  res.render("register");
+  res.render("register", { error: null });
 };
 
-// Handle registration
+//Handle registration
 exports.registerUser = function (req, res) {
   const { first_name, last_name, email, password } = req.body;
-  console.log('Registration attempt:', { first_name, last_name, email }); // Log attempt
+  console.log('Registration attempt:', { first_name, last_name, email });
 
   if (!first_name || !last_name || !email || !password) {
     console.log('Registration failed: missing fields');
     return res.render("register", { error: "All fields are required." });
   }
-  // Hash password
-  bcrypt.hash(password, 10, function (err, hash) {
+
+  // Check if email already exists
+  usersService.fetchUserByEmail(email, function (err, users) {
     if (err) {
-      console.log('Registration failed: error hashing password', err);
-      return res.render("register", { error: "Error hashing password." });
+      console.log('Registration failed: database error', err);
+      return res.render("register", { error: "Database error." });
     }
-    // Use dummy address_id and store_id (e.g., 1)
-    usersService.createUser(
-      {
-        first_name,
-        last_name,
-        email,
-        password: hash,
-        address_id: 1,
-        store_id: 1,
-      },
-      function (err) {
-        if (err) {
-          console.log('Registration failed: error inserting user', err);
-          return res.render("register", { error: "Error registering user." });
-        }
-        console.log('Registration successful for:', email);
-        res.redirect("/login");
+    if (users && users.length > 0) {
+      console.log('Registration failed: email already used', email);
+      return res.render("register", { error: "This email is already used." });
+    }
+
+    // Hash password
+    bcrypt.hash(password, 10, function (err, hash) {
+      if (err) {
+        console.log('Registration failed: error hashing password', err);
+        return res.render("register", { error: "Error hashing password." });
       }
-    );
+      usersService.createUser(
+        {
+          first_name,
+          last_name,
+          email,
+          password: hash,
+          address_id: 1,
+          store_id: 1,
+        },
+        function (err) {
+          if (err) {
+            // Check for duplicate entry error from MySQL
+            if (err.code === 'ER_DUP_ENTRY') {
+              console.log('Registration failed: duplicate email', email);
+              return res.render("register", { error: "This email is already used." });
+            }
+            console.log('Registration failed: error inserting user', err);
+            return res.render("register", { error: "Error registering user." });
+          }
+          console.log('Registration successful for:', email);
+          req.session.flash = { type: 'success', message: 'Registration successful! Please log in.' };
+          res.redirect("/users/login");
+        }
+      );
+    });
   });
 };
 
@@ -89,6 +107,7 @@ exports.loginUser = function (req, res) {
         last_name: user.last_name,
         email: user.email
       };
+      req.session.flash = { type: 'success', message: 'Login successful!' };
       console.log('Login successful for:', email);
       res.redirect("/");
     });
@@ -109,9 +128,6 @@ exports.logoutUser = function (req, res) {
 
 // Show edit form
 exports.showEditForm = function (req, res) {
-  if (!req.session.user) {
-    return res.redirect('/users/login');
-  }
   usersService.fetchUserById(req.session.user.customer_id, function (err, users) { // <-- use customer_id
     if (err || !users || !users[0]) {
       return res.status(404).render('error', { title: 'Error', message: 'User not found', error: {} });
@@ -123,9 +139,6 @@ exports.showEditForm = function (req, res) {
 
 // Handle user update
 exports.updateUser = function (req, res) {
-  if (!req.session.user) {
-    return res.redirect('/users/login');
-  }
   const { first_name, last_name, email, password } = req.body;
   console.log('Update attempt:', { first_name, last_name, email });
   if (!first_name || !last_name || !email) {
@@ -169,9 +182,6 @@ exports.updateUser = function (req, res) {
 };
 
 exports.deleteUser = function (req, res) {
-  if (!req.session.user) {
-    return res.redirect('/users/login');
-  }
   const customer_id = req.session.user.customer_id;
   usersService.deleteUser(customer_id, function (err) {
     if (err) {
@@ -185,9 +195,10 @@ exports.deleteUser = function (req, res) {
 };
 
 exports.showRentalHistory = function(req, res) {
-  if (!req.session.user) return res.redirect('/users/login');
   usersService.getRentalHistory(req.session.user.customer_id, function(err, rentals) {
     if (err) return res.status(500).render('error', { title: 'Error', message: 'Failed to load rental history', error: err });
     res.render('rentalHistory', { rentals });
   });
 };
+
+

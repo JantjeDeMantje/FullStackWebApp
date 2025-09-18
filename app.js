@@ -1,10 +1,11 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-
+const flash = require('./src/middleware/flashMessage');
 const usersRouter = require('./src/routes/users');
 const moviesRouter = require('./src/routes/movies');
 const moviesController = require('./src/controllers/moviesController');
+
 
 const app = express();
 
@@ -37,6 +38,9 @@ app.use((req, res, next) => {
   res.locals.genres = [];
   next();
 });
+
+// Flash messages middleware
+app.use(flash);
 
 // Homepage
 app.get('/', moviesController.getAllMovies);
