@@ -26,6 +26,10 @@ exports.registerUser = function (req, res) {
     return res.render("register", { error: "All fields are required." });
   }
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.render('register', { error: "Please enter a valid email address." });
+  }
   // Check if email already exists
   usersService.fetchUserByEmail(email, function (err, users) {
     if (err) {
@@ -141,9 +145,14 @@ exports.showEditForm = function (req, res) {
 exports.updateUser = function (req, res) {
   const { first_name, last_name, email, password } = req.body;
   console.log('Update attempt:', { first_name, last_name, email });
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!first_name || !last_name || !email) {
     return res.render('editUser', { user: req.body, error: "All fields except password are required." });
   }
+  if (!emailRegex.test(email)) {
+    return res.render('editUser', { user: req.body, error: "Please enter a valid email address." });
+  }
+
   function updateUserInDb(password_hash) {
     usersService.updateUser(
       {
