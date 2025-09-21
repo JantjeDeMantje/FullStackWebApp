@@ -12,7 +12,7 @@ module.exports = {
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
             password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME,
+            database: process.env.DB_DATABASE,
           });
           // Insert with dummy address_id and store_id (1)
           await connection.execute(
@@ -28,7 +28,7 @@ module.exports = {
             host: process.env.DB_HOST,
             user: process.env.DB_USER,
             password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME,
+            database: process.env.DB_DATABASE,
           });
           await connection.execute(
             `DELETE FROM customer WHERE email = ?`,

@@ -123,7 +123,7 @@ describe("Registration", () => {
     cy.get("input[name=last_name]").type("User");
     cy.get("input[name=email]").type(testEmail);
     cy.get("input[name=password]").type(testPassword);
-    cy.contains("button[type=submit]", "Register").click();
+    cy.contains("button[type=submit]", "Create account").click();
     cy.contains("Registration successful").should("exist");
     cy.url().should("include", "/users/login");
   });
@@ -135,14 +135,14 @@ describe("Registration", () => {
     cy.get("input[name=last_name]").type("User");
     cy.get("input[name=email]").type(testEmail);
     cy.get("input[name=password]").type(testPassword);
-    cy.contains("button[type=submit]", "Register").click();
+    cy.contains("button[type=submit]", "Create account").click();
     // Try again with same email
     cy.visit("/users/register");
     cy.get("input[name=first_name]").type("New");
     cy.get("input[name=last_name]").type("User");
     cy.get("input[name=email]").type(testEmail);
     cy.get("input[name=password]").type(testPassword);
-    cy.contains("button[type=submit]", "Register").click();
+    cy.contains("button[type=submit]", "Create account").click();
     cy.contains("already used").should("exist");
   });
 });
@@ -182,7 +182,7 @@ describe("Edit User", () => {
     cy.get("input[name=last_name]").clear().type(newLastName);
     cy.get("input[name=email]").clear().type(newEmail);
     cy.get("input[name=password]").clear(); // Leave password blank to keep current
-    cy.contains("button[type=submit]", "Save Changes").click();
+    cy.contains("button[type=submit]", "Save changes").click();
 
     // Should redirect to home and show new name in account dropdown
     cy.contains("Account").click();
@@ -214,7 +214,7 @@ describe("Delete User", () => {
 
     // Go to edit page
     cy.visit("/users/edit");
-    cy.contains("button", "Delete Account").click();
+    cy.contains("button", "Delete account").click();
 
     // Confirm the dialog (Cypress auto-confirms window.confirm)
     // Should redirect to home and not show account info
